@@ -3,8 +3,11 @@ package com.github.curriculeon.anthropoid;
 import com.github.curriculeon.tools.RandomUtils;
 import com.github.curriculeon.tools.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -21,7 +24,7 @@ public final class PersonFactory {
      * @return a new instance of a person with fields of random values
      */
     public Person createRandomPerson() {
-        String name = StringUtils.capitalizeFirstChar(RandomUtils.createString('a', 'e', 3));
+        String name = StringUtils.capitalizeFirstChar(RandomUtils.createString('a', 'e', 5));
         String[] aliases = RandomUtils.createStrings('a', 'z', 3, 5);
         boolean isMale = RandomUtils.createBoolean(50);
         long personalId = System.nanoTime();
@@ -36,18 +39,21 @@ public final class PersonFactory {
      *
      * @param listSize - number of Person objects to create
      * @return - ArrayList of Person objects
-     */ // TODO
+     */
     public List<Person> createPersonList(int listSize) {
-        return null;
+        List<Person> personList = Arrays.asList(new Person[listSize]); //define an array to initialize with size
+        personList = personList.stream().map(p -> createRandomPerson()).collect(Collectors.toList());
+        return personList;
     }
 
 
     /**
      * @param arrayLength - number of Person objects to create
      * @return - Array of Person objects
-     */ // TODO
+     */
     public Person[] createPersonArray(int arrayLength) {
-        return null;
+        Person[] personArray = new Person[arrayLength];
+        return Arrays.stream(personArray).map(p -> createRandomPerson()).toArray(Person[]::new); //a new Person[]
     }
 
 
@@ -56,8 +62,9 @@ public final class PersonFactory {
      *
      * @param streamCount - number of Person objects to create
      * @return - Stream representation of collection of Person objects
-     */ // TODO
+     */
     public Stream<Person> createPersonStream(int streamCount) {
-        return null;
+        Person[] personArray = new Person[streamCount];
+        return Stream.of(personArray).map(person -> createRandomPerson());
     }
 }

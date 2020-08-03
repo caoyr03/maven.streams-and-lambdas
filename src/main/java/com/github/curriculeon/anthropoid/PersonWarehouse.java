@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -33,9 +35,9 @@ public final class PersonWarehouse implements Iterable<Person> {
 
     /**
      * @return list of names of Person objects
-     */ // TODO
+     */
     public List<String> getNames() {
-        return null;
+        return people.stream().map(person -> person.getName()).collect(Collectors.toList());
     }
 
 
@@ -43,15 +45,19 @@ public final class PersonWarehouse implements Iterable<Person> {
      * @return list of uniquely named Person objects
      */ //TODO
     public Stream<Person> getUniquelyNamedPeople() {
-        return null;
+         List<String> nameList = people.stream().map(person ->person.getName()).distinct().collect(Collectors.toList());
+         Stream<Person> personStream = people.stream().filter(person -> nameList.contains(person.getName()));
+        //Stream<Person> personStream = people.stream().map(person -> person.getName()).distinct();
+         return personStream;
     }
 
 
     /**
      * @param character starting character of Person objects' name
      * @return a Stream of respective
-     */ //TODO
+     */
     public Stream<Person> getUniquelyNamedPeopleStartingWith(Character character) {
+
         return null;
     }
 
@@ -67,7 +73,7 @@ public final class PersonWarehouse implements Iterable<Person> {
      * @return a mapping of Person Id to the respective Person name
      */ // TODO
     public Map<Long, String> getIdToNameMap() {
-        return null;
+        return people.stream().collect(Collectors.toMap(Person::getPersonalId, Person::getName));
     }
 
 
